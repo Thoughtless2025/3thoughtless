@@ -9,10 +9,9 @@ app.get("/hello", (req, res) => {
   res.status(200).send("Hello from the Gemini Adapter!");
 });
 
-// Get credentials from firebase config
-const googleCredentials = functions.config().google;
-const CLIENT_ID = googleCredentials.client_id;
-const CLIENT_SECRET = googleCredentials.client_secret;
+// Get credentials from environment variables
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const REDIRECT_URI = "https://us-central1-athoughtless.cloudfunctions.net/api/auth/google/callback";
 
 // Scopes required for Gemini API
