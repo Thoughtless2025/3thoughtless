@@ -12,9 +12,6 @@ app.get("/hello", (req, res) => {
   res.status(200).send("Hello from the Gemini Adapter!");
 });
 
-// Get credentials from environment variables
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const REDIRECT_URI = "https://us-central1-athoughtless.cloudfunctions.net/api/auth/google/callback";
 
 // Scopes required for Gemini API
@@ -23,14 +20,15 @@ const SCOPES = [
   "https://www.googleapis.com/auth/userinfo.profile",
 ];
 
-const oauth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-
 // Step 1: Redirect user to Google's consent screen
 app.get("/auth/google", (req, res) => {
+  // Create client inside the handler to avoid startup issues
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    REDIRECT_URI
+  );
+
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
@@ -41,6 +39,13 @@ app.get("/auth/google", (req, res) => {
 
 // Step 2: Handle the callback from Google
 app.get("/auth/google/callback", async (req, res) => {
+  // Create client inside the handler to avoid startup issues
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    REDIRECT_URI
+  );
+
   const code = req.query.code as string;
   if (!code) {
     return res.status(400).send("Missing authorization code");
