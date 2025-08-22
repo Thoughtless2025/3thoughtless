@@ -14,6 +14,11 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const REDIRECT_URI = "https://us-central1-athoughtless.cloudfunctions.net/api/auth/google/callback";
 
+// Add debug logging to check if env vars are loaded.
+functions.logger.info("Attempting to initialize OAuth2Client...");
+functions.logger.info(`CLIENT_ID: ${CLIENT_ID ? "Loaded" : "MISSING"}`);
+functions.logger.info(`CLIENT_SECRET: ${CLIENT_SECRET ? "Loaded" : "MISSING"}`);
+
 // Scopes required for Gemini API
 const SCOPES = [
   "https://www.googleapis.com/auth/generative-language.tuning",
