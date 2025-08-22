@@ -58,7 +58,8 @@ app.get("/auth/google/callback", async (req, res) => {
     const {data} = await oauth2.userinfo.get();
     functions.logger.info("User Info:", data);
 
-    return res.status(200).send("Authentication successful! You can close this tab.");
+    const successMessage = "Authentication successful! You can close this tab.";
+    return res.status(200).send(successMessage);
   } catch (error) {
     functions.logger.error("Error retrieving access token", error);
     return res.status(500).send("Authentication failed");
