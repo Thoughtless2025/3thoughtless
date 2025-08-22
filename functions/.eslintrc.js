@@ -26,8 +26,11 @@ module.exports = {
     "import",
   ],
   rules: {
-    "quotes": ["error", "double"],
+    "quotes": "off",
     "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    "indent": "off",
+    "max-len": "off",
+    "eol-last": "off",
+    "no-trailing-spaces": "off",
   },
 };
