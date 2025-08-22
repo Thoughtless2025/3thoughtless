@@ -71,4 +71,4 @@ app.get("/auth/google/callback", async (req, res) => {
 });
 
 
-export const api = functions.https.onRequest(app);
+export const api = functions.runWith({secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]}).https.onRequest(app);
